@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Filter from './Components/Filter';
+import ChartSection from './Components/ChartSection';
+import InsightsSection from './Components/InsightsSection';
 
-function App() {
+const App = () => {
+  const [data, setData] = useState(null);
+  const [selectedState, setSelectedState] = useState('AP');
+
+  useEffect(() => {
+    fetch('https://data.covid19india.org/v4/min/timeseries.min.json')
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+
+  const states = data ? Object.keys(data) : [];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="dashboard">
+      <header className="header">
+        <h1>COVID-19 India Dashboard</h1>
+        <p>Track the COVID-19 situation in different states of India</p>
       </header>
+      <Filter
+        states={states}
+        selectedState={selectedState}
+        onSelectState={setSelectedState}
+      />
+      <InsightsSection data={data} selectedState={selectedState} />
+      <ChartSection data={data} selectedState={selectedState} />
+      <div className="export-button">
+        <button onClick={() => { /* Add export logic here */ }}>
+          Export CSV
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default App;

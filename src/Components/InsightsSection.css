@@ -1,0 +1,15 @@
+.insights-section {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.insight {
+  margin: 5px 0;
+  width: 200px;
+}
