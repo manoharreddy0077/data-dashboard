@@ -1,6 +1,6 @@
 import React from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import { Bar, Line, Pie, Doughnut } from 'react-chartjs-2';
+import { Bar, Pie, Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 import './ChartSection.css';
 
 // Register required components
@@ -8,12 +8,10 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  LineElement,
-  PointElement,
+  ArcElement,
   Title,
   Tooltip,
-  Legend,
-  ArcElement
+  Legend
 );
 
 const ChartSection = ({ data, selectedState }) => {
@@ -26,32 +24,56 @@ const ChartSection = ({ data, selectedState }) => {
   const deceased = dates.map((date) => stateData[date].total.deceased || 0);
   const tested = dates.map((date) => stateData[date].total.tested || 0);
 
-  const chartData = {
+  const barChartData = {
     labels: dates,
     datasets: [
       {
         label: 'Confirmed',
         data: confirmed,
-        borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 1,
       },
       {
         label: 'Recovered',
         data: recovered,
-        borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 1,
       },
       {
         label: 'Deceased',
         data: deceased,
-        borderColor: 'rgb(54, 162, 235)',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgb(54, 162, 235)',
+        borderWidth: 1,
       },
       {
         label: 'Tested',
         data: tested,
-        borderColor: 'rgb(255, 206, 86)',
         backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgb(255, 206, 86)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const pieChartData = {
+    labels: ['Confirmed', 'Recovered', 'Deceased', 'Tested'],
+    datasets: [
+      {
+        data: [
+          confirmed[confirmed.length - 1],
+          recovered[recovered.length - 1],
+          deceased[deceased.length - 1],
+          tested[tested.length - 1],
+        ],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
       },
     ],
   };
@@ -59,56 +81,13 @@ const ChartSection = ({ data, selectedState }) => {
   return (
     <div className="chart-section">
       <div className="chart-item">
-        <Line data={chartData} />
+        <Bar data={barChartData} options={{ maintainAspectRatio: false }} />
       </div>
       <div className="chart-item">
-        <Bar data={chartData} />
+        <Doughnut data={pieChartData} options={{ maintainAspectRatio: false }} />
       </div>
       <div className="chart-item">
-        <Pie
-          data={{
-            labels: ['Confirmed', 'Recovered', 'Deceased', 'Tested'],
-            datasets: [
-              {
-                data: [
-                  confirmed[confirmed.length - 1],
-                  recovered[recovered.length - 1],
-                  deceased[deceased.length - 1],
-                  tested[tested.length - 1],
-                ],
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                ],
-              },
-            ],
-          }}
-        />
-      </div>
-      <div className="chart-item">
-        <Doughnut
-          data={{
-            labels: ['Confirmed', 'Recovered', 'Deceased', 'Tested'],
-            datasets: [
-              {
-                data: [
-                  confirmed[confirmed.length - 1],
-                  recovered[recovered.length - 1],
-                  deceased[deceased.length - 1],
-                  tested[tested.length - 1],
-                ],
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                ],
-              },
-            ],
-          }}
-        />
+        <Pie data={pieChartData} options={{ maintainAspectRatio: false }} />
       </div>
     </div>
   );

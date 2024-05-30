@@ -28,7 +28,7 @@ const App = () => {
         onSelectState={setSelectedState}
       />
       <InsightsSection data={data} selectedState={selectedState} />
-      <ChartSection data={data} selectedState={selectedState} />
+      <ChartSection className='chart' data={data} selectedState={selectedState} />
       <div className="export-button">
         <button onClick={() => { /* Add export logic here */ }}>
           Export CSV

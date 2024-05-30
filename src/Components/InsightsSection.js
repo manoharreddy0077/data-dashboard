@@ -1,12 +1,14 @@
 import React from 'react';
 import './InsightsSection.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVirus, faHeartbeat, faSkull, faVial } from '@fortawesome/free-solid-svg-icons';
 
 const InsightsSection = ({ data, selectedState }) => {
   if (!data || !data[selectedState]) return null;
 
   const stateData = data[selectedState].dates;
   const dates = Object.keys(stateData);
-  
+
   let highestConfirmed = { value: 0, state: '' };
   let highestRecovered = { value: 0, state: '' };
   let highestDeceased = { value: 0, state: '' };
@@ -32,19 +34,35 @@ const InsightsSection = ({ data, selectedState }) => {
     <div className="insights-section">
       <h3>Insights</h3>
       <div className="insight">
+        <FontAwesomeIcon icon={faVirus} className="insight-icon" />
         <strong>Highest Confirmed Cases:</strong>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${(highestConfirmed.value / highestConfirmed.value) * 100}%` }}></div>
+        </div>
         <span>{highestConfirmed.value} ({highestConfirmed.state})</span>
       </div>
       <div className="insight">
+        <FontAwesomeIcon icon={faHeartbeat} className="insight-icon" />
         <strong>Highest Recovered Cases:</strong>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${(highestRecovered.value / highestRecovered.value) * 100}%` }}></div>
+        </div>
         <span>{highestRecovered.value} ({highestRecovered.state})</span>
       </div>
       <div className="insight">
+        <FontAwesomeIcon icon={faSkull} className="insight-icon" />
         <strong>Highest Deceased Cases:</strong>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${(highestDeceased.value / highestDeceased.value) * 100}%` }}></div>
+        </div>
         <span>{highestDeceased.value} ({highestDeceased.state})</span>
       </div>
       <div className="insight">
+        <FontAwesomeIcon icon={faVial} className="insight-icon" />
         <strong>Highest Tested Cases:</strong>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${(highestTested.value / highestTested.value) * 100}%` }}></div>
+        </div>
         <span>{highestTested.value} ({highestTested.state})</span>
       </div>
     </div>
